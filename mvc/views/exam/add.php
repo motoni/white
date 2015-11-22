@@ -15,6 +15,23 @@
         <div class="row">
             <div class="col-sm-8">
                 <form class="form-horizontal" role="form" method="post">
+                    <?php 
+                        if(form_error('term_id')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="term_id" class="col-sm-2 control-label">
+                            <?=$this->lang->line("term_id")?>
+                        </label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="termID" name="termID">
+                                <option class="form-control" value="1" <?php echo set_select("termID", "1"); ?> >First Term</option>
+                                <option class="form-control" value="2"  <?php echo set_select("termID", "2"); ?> >Second Term</option>
+                                <option class="form-control" value="3"  <?php echo set_select("termID", "3"); ?> >Third Term</option>
+                            </select>
+                       </div>
+                    </div>
 
                     <?php 
                         if(form_error('exam')) 

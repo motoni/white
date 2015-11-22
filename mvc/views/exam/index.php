@@ -31,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th class="col-lg-1"><?=$this->lang->line('slno')?></th>
+                                <th class="col-lg-3"><?=$this->lang->line('term_id')?></th>
                                 <th class="col-lg-3"><?=$this->lang->line('exam_name')?></th>
                                 <th class="col-lg-3"><?=$this->lang->line('exam_date')?></th>
                                 <th class="col-lg-3"><?=$this->lang->line('exam_note')?></th>
@@ -42,6 +43,13 @@
                                 <tr>
                                     <td data-title="<?=$this->lang->line('slno')?>">
                                         <?php echo $i; ?>
+                                    </td>
+                                    <td data-title="<?=$this->lang->line('term_id')?>">
+                                        <?php foreach ($terms as $term) {
+                                            if($term->termID == $exam->termID) : 
+                                                echo $term->term;
+                                            endif;
+                                           } ?>
                                     </td>
                                     <td data-title="<?=$this->lang->line('exam_name')?>">
                                         <?php echo $exam->exam; ?>
