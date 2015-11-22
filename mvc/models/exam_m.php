@@ -5,7 +5,7 @@ class Exam_m extends MY_Model {
 	protected $_table_name = 'exam';
 	protected $_primary_key = 'examID';
 	protected $_primary_filter = 'intval';
-	protected $_order_by = "exam asc";
+	protected $_order_by = "termID asc";
 
 	function __construct() {
 		parent::__construct();
