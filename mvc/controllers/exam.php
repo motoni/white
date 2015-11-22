@@ -17,6 +17,7 @@ class Exam extends Admin_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->model("exam_m");
+		$this->load->model("term_m");
 		$language = $this->session->userdata('lang');
 		$this->lang->load('exam', $language);	
 	}
@@ -35,6 +36,11 @@ class Exam extends Admin_Controller {
 
 	protected function rules() {
 		$rules = array(
+			array(
+				'field' => 'termID', 
+				'label' => $this->lang->line("term_id"), 
+				'rules' => 'trim|required'
+			), 
 			array(
 				'field' => 'exam', 
 				'label' => $this->lang->line("exam_name"), 
@@ -66,6 +72,7 @@ class Exam extends Admin_Controller {
 					$this->load->view('_layout_main', $this->data);			
 				} else {
 					$array = array(
+						"termID" => $this->input->post("termID"),
 						"exam" => $this->input->post("exam"),
 						"date" => date("Y-m-d", strtotime($this->input->post("date"))),
 						"note" => $this->input->post("note")
@@ -100,6 +107,7 @@ class Exam extends Admin_Controller {
 							$this->load->view('_layout_main', $this->data);			
 						} else {
 							$array = array(
+								"termID" => $this->input->post("termID"),
 								"exam" => $this->input->post("exam"),
 								"date" => date("Y-m-d", strtotime($this->input->post("date"))),
 								"note" => $this->input->post("note")
