@@ -26,6 +26,7 @@ class Exam extends Admin_Controller {
 		$usertype = $this->session->userdata("usertype");
 		if($usertype == "Admin") {
 			$this->data['exams'] = $this->exam_m->get_order_by_exam();
+			$this->data['terms'] = $this->term_m->get_order_by_term();
 			$this->data["subview"] = "exam/index";
 			$this->load->view('_layout_main', $this->data);
 		} else {
