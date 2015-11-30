@@ -1,6 +1,3 @@
-
-
-
 <?php 
     $usertype = $this->session->userdata("usertype");
     if($usertype == "Admin") {
@@ -240,57 +237,43 @@
 
       
   </script>
-  
+  <script type="text/javascript" src="<?php echo base_url('assets/fullcalendar/fullcalendar.min.js'); ?>"></script>
+
+  <script type="text/javascript">
+    $(function() {
+        var date = new Date();
+        var d = date.getDate(),
+                m = date.getMonth(),
+                y = date.getFullYear();
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'prev,next'
+            },
+            buttonText: {//This is to add icons to the visible buttons
+                prev: "<span class='fa fa-caret-left'></span>",
+                next: "<span class='fa fa-caret-right'></span>",
+                today: 'today',
+                month: 'month',
+                week: 'week',
+                day: 'day'
+            }
+        });
+    });
+  </script>
+
   <div class="row"> 
-    <div class="col-sm-4">
-      <?php if(count($user)) { ?>
-        <section class="panel">
-          <div class="profile-db-head">
-            <a href="<?=base_url('profile/index')?>">
-              <?=img(base_url('uploads/images/'.$user->photo));?>
-            </a>
+    <div class="col-sm-6">
+        <div class="box box-primary">
+            <div class="box-body no-padding">
+                <!-- THE CALENDAR -->
+                <div id="calendar"></div>
+            </div><!-- /.box-body -->
+        </div><!-- /. box -->
+    </div><!-- /.col -->
 
-            <h1><?=$user->name?></h1>
-            <p><?=$this->lang->line($user->usertype)?></p>
-
-          </div>
-          <table class="table table-hover">
-              <tbody>
-                  <tr>
-                    <td>
-                      <i class="glyphicon glyphicon-user" style="color:#FDB45C;"></i>
-                    </td>
-                    <td><?=$this->lang->line('dashboard_username')?></td>
-                    <td><?=$user->username?></td>
-                  </tr>
-                  <tr>
-                      <td>
-                        <i class="fa fa-envelope" style="color:#FDB45C;"></i>
-                      </td>
-                      <td><?=$this->lang->line('dashboard_email')?></td>
-                    <td><?=$user->email?></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i class="fa fa-phone" style="color:#FDB45C;"></i>
-                    </td>
-                    <td><?=$this->lang->line('dashboard_phone')?></td>
-                    <td><?=$user->phone?></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i class=" fa fa-globe" style="color:#FDB45C;"></i>
-                    </td>
-                    <td><?=$this->lang->line('dashboard_address')?></td>
-                    <td><?=$user->address?></td>
-                  </tr>
-              </tbody>
-          </table>
-        </section>
-      <?php } ?>
-    </div>
-
-    <div class="col-sm-8">
+    <div class="col-sm-6">
       <div class="box">
         <div class="box-header" style="background-color:#FDB45C;">
           <h3 class="box-title">
@@ -351,7 +334,12 @@
       </div>
     </div>
 
+   <div class="row">
+    
+  </div><!-- /.row -->
+
   </div>
+
 <?php } elseif($usertype == "Teacher") { ?>
   <div class="row">
     <div class="col-lg-3 col-xs-6">
