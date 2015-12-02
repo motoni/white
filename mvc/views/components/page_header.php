@@ -9,6 +9,8 @@
         <script type="text/javascript" src="<?php echo base_url('assets/datepicker/datepicker.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/timepicker/timepicker.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/toastr/toastr.min.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/scripts/graphs.js'); ?>"></script>
+
         <link href="<?php echo base_url('assets/bootstrap/bootstrap.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/fonts/font-awesome.css'); ?>" rel="stylesheet">
         <link href="<?php echo base_url('assets/fonts/icomoon.css'); ?>" rel="stylesheet">
@@ -28,6 +30,7 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/select2/css/select2-bootstrap.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/select2/css/gh-pages.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/jqueryUI/jqueryui.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('assets/scripts/graphs.css'); ?>">
 
 
     </head>

@@ -78,9 +78,7 @@
 
   <script type="text/javascript" src="<?php echo base_url('assets/chartjs/chart.js'); ?>"></script>
   <div class="row">
-      
-      <div class="col-lg-9">
-
+     <div class="col-lg-9">
         <div class="box">
           <div class="box-header" style="background-color:#926dde;">
             <h3 class="box-title">
@@ -90,12 +88,9 @@
 
           <div class="box-body" style="background-color:#926dde;">
             <canvas style="padding-right:25px" id="graph" width="200" height="101"/></canvas>
-          </div>
-          
-
-        </div>
+          </div>        
+       </div>
       </div>
-
       <div class="col-lg-3">
         <div class="row">
           <div class="col-lg-12">
@@ -103,7 +98,6 @@
               <center><canvas id="pai" width="200" height="200"/></canvas></center>
             </section>
           </div>
-
           <div class="col-lg-12">
             <section class="panel">
               <center><canvas id="chart-area" width="200" height="200"/></canvas></center>
@@ -112,6 +106,103 @@
         </div>
       </div>
   </div>
+  <div class="row">
+    <div class="col-lg-6 col-xs-6">
+      <section class="small-box">
+        <a class="box-container" href="#">
+          <header class="title">
+             <h4>Staff Attendance</h4>
+          </header>
+        <center>
+          <p class="percent"><span class="pvalue">
+            <?php 
+                $total = count($teacher);
+                $present = count($tPresentAttendance);
+                $result = round(($present/$total), 2)*100;
+                echo $result . "%";
+              ?>
+            </span><span class="small-text">Present</span></p>
+          <canvas id="teachers-absent-graph" class="chart-on-canvas" width="100" height="100"></canvas>
+        </center>
+        <div id="js-legend" class="chart-legend"></div>
+      </a>
+      </section>
+    </div>
+    <div class="col-lg-6 col-xs-6">
+      <section class="small-box">
+        <a class="box-container" href="#">
+          <header class="title">
+             <h4>Students Attendance</h4>
+          </header> 
+          <center>
+            <p class="percent"><span class="pvalue">
+              <?php 
+                $total = count($student);
+                $present = count($attendance);
+                $result = round(($present/$total), 2)*100;
+                echo $result . "%";
+              ?>
+              </span><span class="small-text">Present</span></p>
+            <canvas id="students-absent-graph" class="chart-on-canvas" width="100" height="100"></canvas>
+          </center>
+          <div id="js-legend" class="chart-legend"></div>
+      </a>
+      </section>
+    </div>
+  </div>
+<script type="text/javascript" src="<?php echo base_url('assets/scripts/graphs.js'); ?>"></script>
+<script>
+  $(document).ready(function() {
+
+    /* ============= Attendance Chart data ===================== */
+
+    var tdata = [ // Teachers Data
+          {
+            value: <?=count($tPresentAttendance) ? count($tPresentAttendance) : 1 ?>,
+            color: "#46BFBD",
+            highlight: "#5AD3D1",
+            label: "Present"
+          },
+
+          {
+            value: <?=count($tAbsentAttendance) ? count($tAbsentAttendance) : 1 ?>,
+            color:"#F7464A",
+            highlight: "#FF5A5E",
+            label: "Absent"
+          },
+
+        ];
+
+        var sdata = [ // Students Data
+          {
+            value: <?=count($attendance) ? count($attendance) : 1 ?>,
+            color: "#46BFBD",
+            highlight: "#5AD3D1",
+            label: "Present"
+          },
+
+          {
+            value: <?=count($sAbsentAttendance) ? count($sAbsentAttendance) : 1 ?>,
+            color:"#F7464A",
+            highlight: "#FF5A5E",
+            label: "Absent"
+          },
+
+        ];
+
+        var options = {
+          segmentShowStroke: false,
+          animateRotate: true,
+          animateScale: false,
+          percentageInnerCutout: 55,
+          tooltipTemplate: "<%= value %>"
+        }
+
+       displayAttendanceDoughnutGraph(tdata, "#teachers-absent-graph", options); // Display Teachers Attendance Chart
+       displayAttendanceDoughnutGraph(sdata, "#students-absent-graph", options); // Display Students Attendance Chart
+
+  }); 
+</script>
 
   <script>
     var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
@@ -233,10 +324,12 @@
           }
       });
 
-      
-
+    
       
   </script>
+
+
+
   <script type="text/javascript" src="<?php echo base_url('assets/fullcalendar/fullcalendar.min.js'); ?>"></script>
 
   <script type="text/javascript">

@@ -15,6 +15,8 @@ class Dashboard extends Admin_Controller {
 | -----------------------------------------------------
 */	
 
+/** This file has been modified by Babajide Ibiayo, babajideibiayo@yahoo.com All rights reserved by INILABS */
+
 	function __construct() {
 		parent::__construct();
 		$this->load->model("dashboard_m");
@@ -28,6 +30,7 @@ class Dashboard extends Admin_Controller {
 		$this->load->model("teacher_m");
 		$this->load->model("parentes_m");
 		$this->load->model("sattendance_m");
+		$this->load->model("tattendance_m");
 		$this->load->model("subject_m");
 		$this->load->model("feetype_m");
 		$this->load->model("invoice_m");
@@ -246,6 +249,12 @@ class Dashboard extends Admin_Controller {
 			$this->data['teacher'] = $this->teacher_m->get_teacher();
 			$this->data['parents'] = $this->parentes_m->get_parentes();
 			$this->data['attendance'] = $this->sattendance_m->get_order_by_attendance(array('monthyear' => $monthyear, 'a'.$day => 'P'));
+			$this->data['sAbsentAttendance'] = $this->sattendance_m->get_order_by_attendance(array('monthyear' => $monthyear, 'a'.$day => NULL));
+			$this->data['tPresentAttendance'] = $this->tattendance_m->get_order_by_tattendance(array('monthyear' => $monthyear, 'a'.$day => 'P'));
+			$this->data['tAbsentAttendance'] = $this->tattendance_m->get_order_by_tattendance(array('monthyear' => $monthyear, 'a'.$day => NULL));
+
+
+
 		} elseif($usertype == "Teacher") {
 			$username = $this->session->userdata('username');
 			$this->data['user'] = $this->teacher_m->get_single_teacher(array('username'  => $username));
