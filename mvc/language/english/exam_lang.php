@@ -1,5 +1,19 @@
 <?php
-
+/*
+| -----------------------------------------------------
+| PRODUCT NAME:     INILABS SCHOOL MANAGEMENT SYSTEM
+| -----------------------------------------------------
+| AUTHOR:           INILABS TEAM
+| -----------------------------------------------------
+| EMAIL:            info@inilabs.net
+| -----------------------------------------------------
+| COPYRIGHT:        RESERVED BY INILABS IT
+| -----------------------------------------------------
+| WEBSITE:          http://inilabs.net
+| -----------------------------------------------------
+| MODIFIED BY:      INTELNETGS intelnetgs@yahoo.com
+|------------------------------------------------------
+*/
 /* List Language  */
 $lang['panel_title'] = "Exam";
 $lang['add_title'] = "Add a exam";

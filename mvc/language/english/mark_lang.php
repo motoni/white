@@ -1,5 +1,19 @@
 <?php
-
+/*
+| -----------------------------------------------------
+| PRODUCT NAME:     INILABS SCHOOL MANAGEMENT SYSTEM
+| -----------------------------------------------------
+| AUTHOR:           INILABS TEAM
+| -----------------------------------------------------
+| EMAIL:            info@inilabs.net
+| -----------------------------------------------------
+| COPYRIGHT:        RESERVED BY INILABS IT
+| -----------------------------------------------------
+| WEBSITE:          http://inilabs.net
+| -----------------------------------------------------
+| MODIFIED BY:      INTELNETGS intelnetgs@yahoo.com
+|------------------------------------------------------
+*/
 /* List Language  */
 $lang['panel_title'] = "Mark";
 $lang['add_title'] = 'Add a mark';
@@ -20,7 +34,7 @@ $lang['mark_address'] = "Address";
 $lang['mark_username'] = "Username";
 
 $lang['mark_subject'] = "Subject";
-$lang['mark_mark'] = "Mark";
+$lang['mark_mark'] = "Mark Obtained";
 $lang['mark_point'] = "Point";
 $lang['mark_grade'] = "Grade";
 
@@ -31,7 +45,11 @@ $lang['mark_select_subject'] = "Select Subject";
 $lang['mark_select_student'] = "Select Student";
 $lang['mark_success'] = "Success";
 $lang['personal_information'] = "Personal Information";
-$lang['mark_information'] = "Mark Information";
+$lang['mark_information'] = "Marks Information";
+$lang['mark-charts'] = "Marks Chart";
+$lang['mark_sheet'] = "Mark Sheet";
+$lang['mark_high'] = "Highest Mark";
+$lang['mark_average'] = "Average Mark";
 $lang['action'] = "Action";
 $lang['view'] = 'View';
 $lang['pdf_preview'] = 'PDF Preview';

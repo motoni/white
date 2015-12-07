@@ -1,3 +1,19 @@
+<?php 
+/*
+| -----------------------------------------------------
+| PRODUCT NAME:     INILABS SCHOOL MANAGEMENT SYSTEM
+| -----------------------------------------------------
+| AUTHOR:           INILABS TEAM
+| -----------------------------------------------------
+| EMAIL:            info@inilabs.net
+| -----------------------------------------------------
+| COPYRIGHT:        RESERVED BY INILABS IT
+| -----------------------------------------------------
+| WEBSITE:          http://inilabs.net
+| -----------------------------------------------------
+| MODIFIED BY:      INTELNETGS intelnetgs@yahoo.com
+|------------------------------------------------------
+*/?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,6 +25,7 @@
         <script type="text/javascript" src="<?php echo base_url('assets/datepicker/datepicker.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/timepicker/timepicker.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/toastr/toastr.min.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/chartjs/chart.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/scripts/graphs.js'); ?>"></script>
 
         <link href="<?php echo base_url('assets/bootstrap/bootstrap.min.css'); ?>" rel="stylesheet">

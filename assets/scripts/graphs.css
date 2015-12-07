@@ -1,3 +1,13 @@
+/**
+* @package Graph
+* @author Babajide Ibiayo
+* @author_email babajideibiayo@yahoo.com
+* @version 1.0
+*
+* This script provides custom extensions and graphing functions for the iniLibs School Apps using Chart.js
+
+**/
+
 /* Style sheet for Graphs.js */
 
 header.title{
@@ -50,7 +60,10 @@ ul.doughnut-legend {
 
 }
 
-ul.doughnut-legend li{
+ul.doughnut-legend li, ul.bar-legend li{
 	list-style: none;
 	padding-bottom: 5px;
+}
+.stuff{
+	background:#ff0;
 }

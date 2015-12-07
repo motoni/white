@@ -1,4 +1,20 @@
-
+<?php
+/*
+| -----------------------------------------------------
+| PRODUCT NAME:     INILABS SCHOOL MANAGEMENT SYSTEM
+| -----------------------------------------------------
+| AUTHOR:           INILABS TEAM
+| -----------------------------------------------------
+| EMAIL:            info@inilabs.net
+| -----------------------------------------------------
+| COPYRIGHT:        RESERVED BY INILABS IT
+| -----------------------------------------------------
+| WEBSITE:          http://inilabs.net
+| -----------------------------------------------------
+| MODIFIED BY:      INTELNETGS intelnetgs@yahoo.com
+|------------------------------------------------------
+*/
+?>
 <div class="box">
     <div class="box-header">
         <h3 class="box-title"><i class="fa fa-flask"></i> <?=$this->lang->line('panel_title')?></h3>
@@ -95,6 +111,7 @@
                                         <?php 
                                             if($usertype == "Admin" || $usertype == "Teacher") {
                                                 echo btn_view('mark/view/'.$student->studentID."/".$set, $this->lang->line('view'));
+                                                echo btn_marksheet('mark/marksheet/'.$student->studentID."/".$set, $this->lang->line('mark_sheet'));
                                             }
 
                                         ?>

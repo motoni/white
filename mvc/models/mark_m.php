@@ -1,5 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+/*
+| -----------------------------------------------------
+| PRODUCT NAME:     INILABS SCHOOL MANAGEMENT SYSTEM
+| -----------------------------------------------------
+| AUTHOR:           INILABS TEAM
+| -----------------------------------------------------
+| EMAIL:            info@inilabs.net
+| -----------------------------------------------------
+| COPYRIGHT:        RESERVED BY INILABS IT
+| -----------------------------------------------------
+| WEBSITE:          http://inilabs.net
+| -----------------------------------------------------
+| MODIFIED BY:      INTELNETGS intelnetgs@yahoo.com
+|------------------------------------------------------
+*/
 class Mark_m extends MY_Model {
 
 	protected $_table_name = 'mark';
@@ -50,6 +64,29 @@ class Mark_m extends MY_Model {
 		$this->db->where($array); 
 		$query = $this->db->get('mark');
 		return $query->row();
+	}
+
+	function student_subject_mark($studentID, $classesID) {
+		$array = array(
+			"studentID" => $studentID,
+			"classesID" => $classesID
+		);
+		$this->db->select('*');
+		$this->db->from('mark');
+		$this->db->where($array); 
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	function all_subject_mark_by_class($classesID) {
+		$array = array(
+			"classesID" => $classesID
+		);
+		$this->db->select('*');
+		$this->db->from('mark');
+		$this->db->where($array); 
+		$query = $this->db->get();
+		return $query->result();
 	}
 
 	function count_subject_mark($studentID, $classesID, $subjectID) {
