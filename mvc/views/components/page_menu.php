@@ -391,6 +391,14 @@
                         <?php } ?>
 
                         <?php
+                            if($usertype == "Admin") { 
+                                echo '<li>';
+                                    echo anchor('event/index', '<i class="glyphicon glyphicon-book"></i><span>'.$this->lang->line('menu_event').'</span>');
+                                echo '</li>';
+                            }
+                        ?>
+
+                        <?php
                             if($usertype == "Admin" || $usertype == "Teacher") { 
                                 echo '<li>';
                                     echo anchor('promotion/index', '<i class="fa icon-promotion"></i><span>'.$this->lang->line('menu_promotion').'</span>');

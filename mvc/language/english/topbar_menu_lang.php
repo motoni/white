@@ -53,6 +53,7 @@ $lang['menu_transport'] = 'Transport';
 $lang['menu_hostel'] = 'Hostel';
 $lang['menu_category'] = 'Category';
 $lang['menu_account'] = 'Account';
+$lang['menu_event'] = 'Event';
 $lang['menu_feetype'] = 'Fee Type';
 $lang['menu_setfee'] = 'Set Fee';
 $lang['menu_balance'] = 'Balance';

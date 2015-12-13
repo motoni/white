@@ -43,6 +43,8 @@ class Dashboard extends Admin_Controller {
 		$this->load->model("parentes_m");
 		$this->load->model('hmember_m');
 		$this->load->model('tmember_m');
+		$this->load->model('event_m');
+
 		$language = $this->session->userdata('lang');
 		$this->lang->load('dashboard', $language);
 
@@ -248,6 +250,7 @@ class Dashboard extends Admin_Controller {
 			$this->data['student'] = $this->student_m->get_student();
 			$this->data['teacher'] = $this->teacher_m->get_teacher();
 			$this->data['parents'] = $this->parentes_m->get_parentes();
+			$this->data['events'] = $this->event_m->get_event();
 			$this->data['attendance'] = $this->sattendance_m->get_order_by_attendance(array('monthyear' => $monthyear, 'a'.$day => 'P'));
 			$this->data['sAbsentAttendance'] = $this->sattendance_m->get_order_by_attendance(array('monthyear' => $monthyear, 'a'.$day => NULL));
 			$this->data['tPresentAttendance'] = $this->tattendance_m->get_order_by_tattendance(array('monthyear' => $monthyear, 'a'.$day => 'P'));

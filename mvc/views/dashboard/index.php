@@ -203,7 +203,7 @@
 
   }); 
 </script>
-
+<script type="text/javascript" src="<?php echo base_url('assets/chartjs/chart.js'); ?>"></script>
   <script>
     var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
       $.ajax({
@@ -328,7 +328,14 @@
       
   </script>
 
+<?php 
+  foreach ($events as $event) {
+    $event_title = $event->title;
+    $create_date = $event->create_date;
 
+  }
+
+?>
 
   <script type="text/javascript" src="<?php echo base_url('assets/fullcalendar/fullcalendar.min.js'); ?>"></script>
 
@@ -351,7 +358,24 @@
                 month: 'month',
                 week: 'week',
                 day: 'day'
-            }
+            },
+            events: [
+
+                <?php 
+                  foreach ($events as $event) : 
+                    $event_title = $event->title;
+                    $date = $event->date;
+                ?>
+
+
+            {
+                title: "<?= $event_title; ?>",
+                start: "<?= $date; ?>",
+                end: "<?= $date; ?>"
+              },
+
+              <?php endforeach ?>
+            ]
         });
     });
   </script>
