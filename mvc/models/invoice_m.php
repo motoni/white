@@ -50,7 +50,41 @@ class Invoice_m extends MY_Model {
 	public function delete_invoice($id){
 		parent::delete($id);
 	}
-}
+	/* ------------------------------------------------------
+	/* Extra helper functions by IntelnetGS team */
+	/*------------------------------------------------------- */
+
+	function get_invoice_by_id($id) {
+		$this->db->select('*');
+		$this->db->from('invoice');
+		$this->db->where("invoice.feetypeID", $id);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	function get_total_amount($id = NULL) {
+		$this->db->select_sum('amount', 'total');
+		if ($id != NULL) {$this->db->where('feetypeID', $id);}
+		$query = $this->db->get('invoice');
+		return $query->result();
+	}
+
+	function get_amount_by_status($status, $name, $id = NULL) {
+		$this->db->select_sum('amount', $name);
+		$this->db->where('status', $status);
+		if ($id != NULL) {$this->db->where('feetypeID', $id);}
+		$query = $this->db->get('invoice');
+		return $query->result();
+	}
+	function get_paidamount_by_status($status, $name, $id = NULL) {
+		$this->db->select_sum('paidamount', $name);
+		$this->db->where('status', $status);
+		if ($id != NULL) {$this->db->where('feetypeID', $id);}
+		$query = $this->db->get('invoice');
+		return $query->result();
+	}
+}	
+	
 
 /* End of file invoice_m.php */
 /* Location: .//D/xampp/htdocs/school/mvc/models/invoice_m.php */

@@ -14,6 +14,8 @@ class Invoice extends Admin_Controller {
 | -----------------------------------------------------
 | WEBSITE:			http://inilabs.net
 | -----------------------------------------------------
+| MODIFIED BY:      Babajide Ibiayo (babajideibiayo@yahoo.com)
+| -----------------------------------------------------
 */
 	function __construct() {
 		parent::__construct();
@@ -25,6 +27,7 @@ class Invoice extends Admin_Controller {
 		$this->load->model("parentes_m");
 		$this->load->model("section_m");
 		$this->load->model('user_m');
+		$this->load->model('feetype_m');
 		$this->load->model("payment_settings_m");
 		$language = $this->session->userdata('lang');
 		$this->lang->load('invoice', $language);
@@ -33,10 +36,24 @@ class Invoice extends Admin_Controller {
 
 	public function index() {
 		$usertype = $this->session->userdata("usertype");
+		$fpstatus = 2;
+		$ppstatus = 1;	
 		if($usertype == "Admin" || $usertype == "Accountant") {
 			$this->data['invoices'] = $this->invoice_m->get_invoice();
+			$this->data['feetypes'] = $this->feetype_m->get_feetype();
+			$feetypeID = $this->input->post('feetypeID');
+			$feetype = $this->feetype_m->get_feetype_by_id($feetypeID);
+			
+			$this->data['fullpayments'] = $this->invoice_m->get_amount_by_status($fpstatus, 'full');
+			$this->data['partialpayments'] = $this->invoice_m->get_paidamount_by_status($ppstatus, 'partial');
+			$this->data['totalpayments'] = $this->invoice_m->get_total_amount();
+
 			$this->data["subview"] = "invoice/index";
 			$this->load->view('_layout_main', $this->data);
+
+			
+
+						
 		} elseif($usertype == "Student") {
 			$username = $this->session->userdata("username");
 			$student = $this->student_m->get_single_student(array("username" => $username));
@@ -74,13 +91,116 @@ class Invoice extends Admin_Controller {
 			$this->load->view('_layout_main', $this->data);
 		}
 	}
+	public function analysis($id = NULL) {
+		$usertype = $this->session->userdata("usertype");
+		$feetype_id = $id;
+		$fpstatus = 2;
+		$ppstatus = 1;	
+
+		if($usertype == "Admin" || $usertype == "Accountant") {
+			$this->data['invoices'] = $this->invoice_m->get_invoice();
+			$this->data['feetypes'] = $this->feetype_m->get_feetype();
+			if ((int)$feetype_id){
+				$this->data['invoicesFT'] = $this->invoice_m->get_invoice_by_id($feetype_id);
+			}
+			$this->data['fullpayments'] = $this->invoice_m->get_amount_by_status($fpstatus, 'full', $feetype_id);
+			$this->data['partialpayments'] = $this->invoice_m->get_paidamount_by_status($ppstatus, 'partial', $feetype_id);
+			$this->data['totalpayments'] = $this->invoice_m->get_total_amount($feetype_id);
+
+			
+			$this->data["subview"] = "invoice/analysis";
+			$this->load->view('_layout_main', $this->data);
+		} elseif($usertype == "Student") {
+			$username = $this->session->userdata("username");
+			$student = $this->student_m->get_single_student(array("username" => $username));
+			$this->data['invoices'] = $this->invoice_m->get_order_by_invoice(array('studentID' => $student->studentID));
+			$this->data["subview"] = "invoice/analysis";
+			$this->load->view('_layout_main', $this->data);
+		} elseif($usertype == "Parent") {
+			$username = $this->session->userdata("username");
+			$parent = $this->parentes_m->get_single_parentes(array('username' => $username));
+			$this->data['students'] = $this->student_m->get_order_by_student(array('parentID' => $parent->parentID));
+			$id = htmlentities(mysql_real_escape_string($this->uri->segment(3)));
+			if((int)$id) {
+				$checkstudent = $this->student_m->get_single_student(array('studentID' => $id));
+				if(count($checkstudent)) {
+					if($checkstudent->parentID == $parent->parentID) {
+						$classesID = $checkstudent->classesID;
+						$this->data['set'] = $id;
+						$this->data['invoices'] = $this->invoice_m->get_order_by_invoice(array('studentID' => $id));
+						$this->data["subview"] = "invoice/index_parent";
+						$this->load->view('_layout_main', $this->data); 
+					} else {
+						$this->data["subview"] = "error";
+						$this->load->view('_layout_main', $this->data);
+					}
+				} else {
+					$this->data["subview"] = "error";
+					$this->load->view('_layout_main', $this->data);
+				}
+			} else {
+				$this->data["subview"] = "invoice/search_parent";
+				$this->load->view('_layout_main', $this->data);
+			}
+		} else {
+			$this->data["subview"] = "error";
+			$this->load->view('_layout_main', $this->data);
+		}
+	}
+
+	public function invoice_analysis($id = NULL) {
+		$usertype = $this->session->userdata("usertype");
+		if($usertype == "Admin" || $usertype == "Accountant") {
+			$feetype_id = $id;
+			$fpstatus = 2;
+			$ppstatus = 1;	
+
+			$amount = $this->invoice_m->get_amount_by_status($fpstatus, 'full', $feetype_id);
+			foreach($amount as $paid) {$afpaid = $paid->full;}
+			if ($afpaid == NULL) : $afpaid = 0; endif;
 	
+			$amount = $this->invoice_m->get_paidamount_by_status($ppstatus, 'partial', $feetype_id);
+			foreach($amount as $paid){$appaid = $paid->partial;}
+			if ($appaid == NULL) : $afpaid = 0; endif;
+
+			$recieveables = $this->invoice_m->get_total_amount($feetype_id);
+			foreach ($recieveables as $amount ) {$tpaid = $amount->total;}
+			if ($tpaid == NULL) : $tpaid = 0; endif;
+			
+			$anpaid = $tpaid - ($afpaid + $appaid);
+
+			if ($afpaid >= 0 && $appaid >= 0) {
+				$json = array('afpaid' => $afpaid, 'appaid' => $appaid, 'anpaid' => $anpaid, 'tpaid' => $tpaid, 'st' => 1);
+				header("Content-Type: application/json", true);
+				echo json_encode($json);
+				exit;
+			}else {
+					$json = array('afpaid' => $afpaid, 'appaid' => $appaid, 'anpaid' => $anpaid, 'tpaid' => $tpaid, 'st' => 0);
+					header("Content-Type: application/json", true);
+					echo json_encode($json);
+					exit;	
+			}
+		}
+
+	}
+
+
 	protected function rules() {
 		$rules = array(
 				array(
 					'field' => 'classesID', 
 					'label' => $this->lang->line("invoice_classesID"), 
 					'rules' => 'trim|required|xss_clean|max_length[11]|numeric|callback_unique_classID'
+				),
+				array(
+					'field' => 'termID', 
+					'label' => $this->lang->line("invoice_termID"), 
+					'rules' => 'trim|required|xss_clean|max_length[11]|numeric|callback_unique_termID'
+				),
+				array(
+					'field' => 'feetypeID', 
+					'label' => $this->lang->line("invoice_feetypeID"), 
+					'rules' => 'trim|required|xss_clean|max_length[11]|numeric|callback_unique_termID|callback_feetypeID_check'
 				),
 				array(
 					'field' => 'studentID', 
@@ -90,7 +210,7 @@ class Invoice extends Admin_Controller {
 				array(
 					'field' => 'feetype', 
 					'label' => $this->lang->line("invoice_feetype"), 
-					'rules' => 'trim|required|xss_clean|max_length[128]'
+					'rules' => 'trim|required|xss_clean|max_length[128]|'
 				),
 				array(
 					'field' => 'amount',
@@ -105,6 +225,13 @@ class Invoice extends Admin_Controller {
 
 			);
 		return $rules;
+	}
+	function feetypeID_check($str){
+		if ($str == 0) {
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	protected function payment_rules() {
@@ -129,6 +256,7 @@ class Invoice extends Admin_Controller {
 			$this->data['classes'] = $this->classes_m->get_classes();
 			$this->data['feetypes'] = $this->feetype_m->get_feetype();
 			$classesID = $this->input->post("classesID");
+			
 			if($classesID != 0) {
 				$this->data['students'] = $this->student_m->get_order_by_student(array("classesID" => $classesID));
 			} else {
@@ -137,6 +265,7 @@ class Invoice extends Admin_Controller {
 			$this->data['studentID'] = 0;
 			if($_POST) {
 				$this->data['studentID'] = $this->input->post('studentID');
+				$feetypeID = $this->input->post('feetypeID');
 				$rules = $this->rules();
 				$this->form_validation->set_rules($rules);
 				if ($this->form_validation->run() == FALSE) {
@@ -145,17 +274,22 @@ class Invoice extends Admin_Controller {
 				} else {
 					if($this->input->post('studentID')) {
 						$classesID = $this->input->post('classesID');
+						$termID = $this->input->post('termID');
+						$feetypeID = $this->input->post('feetypeID');
+						$feetype = $this->feetype_m->get_feetype_by_id($feetypeID);
 						$getclasses = $this->classes_m->get_classes($classesID);
 						$studentID = $this->input->post('studentID');
 						$getstudent = $this->student_m->get_student($studentID);
 						$amount = $this->input->post("amount");
 						$array = array(
 							'classesID' => $classesID,
+							'termID' => $termID,
+							'feetypeID' => $feetypeID,
 							'classes' => $getclasses->classes,
 							'studentID' => $studentID,
 							'student' => $getstudent->name,
 							'roll' => $getstudent->roll,
-							'feetype' => $this->input->post("feetype"),
+							'feetype' => $feetype,
 							'amount' => $amount,
 							'status' => 0,
 							'date' => date("Y-m-d", strtotime($this->input->post("date"))),
@@ -169,17 +303,21 @@ class Invoice extends Admin_Controller {
 					 	redirect(base_url("invoice/view/$returnID"));
 					} else {
 						$classesID = $this->input->post('classesID');
+						$termID = $this->input->post('termID');
+						$feetypeID = $this->input->post('feetypeID');
 						$getclasses = $this->classes_m->get_classes($classesID);
 						$getstudents = $this->student_m->get_order_by_student(array("classesID" => $classesID));
 						$amount = $this->input->post("amount");
 						foreach ($getstudents as $key => $getstudent) {
 							$array = array(
 								'classesID' => $classesID,
+								'termID' => $termID,
+								'feetypeID' => $feetypeID,
 								'classes' => $getclasses->classes,
 								'studentID' => $getstudent->studentID,
 								'student' => $getstudent->name,
 								'roll' => $getstudent->roll,
-								'feetype' => $this->input->post("feetype"),
+								'feetype' => $feetype,
 								'amount' => $amount,
 								'status' => 0,
 								'date' => date("Y-m-d", strtotime($this->input->post("date"))),
@@ -206,6 +344,7 @@ class Invoice extends Admin_Controller {
 
 	public function edit() {
 		$usertype = $this->session->userdata("usertype");
+		$this->data['feetypes'] = $this->feetype_m->get_feetype();
 		if($usertype == "Admin" || $usertype == "Accountant") {
 			$id = htmlentities(mysql_real_escape_string($this->uri->segment(3)));
 			if((int)$id) {
@@ -223,6 +362,7 @@ class Invoice extends Admin_Controller {
 
 					if($_POST) {
 						$this->data['studentID'] = $this->input->post('studentID');
+						$feetypeID = $this->input->post('feetypeID');
 						$rules = $this->rules();
 						$this->form_validation->set_rules($rules);
 						if ($this->form_validation->run() == FALSE) {
@@ -236,6 +376,9 @@ class Invoice extends Admin_Controller {
 							$this->student_m->update_student(array('totalamount' => $oldnowamount), $oldstudent->studentID);
 
 							$classesID = $this->input->post('classesID');
+							$termID = $this->input->post('termID');
+							$feetypeID = $this->input->post('feetypeID');
+							$feetype = $this->feetype_m->get_feetype_by_id($feetypeID);
 							$getclasses = $this->classes_m->get_classes($classesID);
 							$studentID = $this->input->post('studentID');
 							$getstudent = $this->student_m->get_student($studentID);
@@ -251,11 +394,13 @@ class Invoice extends Admin_Controller {
 
 							$array = array(
 								'classesID' => $classesID,
+								'termID' => $termID,
+								'feetypeID' => $feetypeID,
 								'classes' => $getclasses->classes,
 								'studentID' => $studentID,
 								'student' => $getstudent->name,
 								'roll' => $getstudent->roll,
-								'feetype' => $this->input->post("feetype"),
+								'feetype' => $feetype,
 								'amount' => $amount,
 								'status' => $status,
 							);

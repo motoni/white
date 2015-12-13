@@ -1,4 +1,3 @@
-
 <div class="box">
     <div class="box-header">
         <h3 class="box-title"><i class="fa icon-invoice"></i> <?=$this->lang->line('panel_title')?></h3>
@@ -13,6 +12,238 @@
     <div class="box-body">
         <div class="row">
             <div class="col-sm-12">
+
+                    <div class="col-sm-12">
+                        <div class="panel panel-default panel-primary">
+                            <div class="panel-heading">
+                                <h4 class="panel-title headings">Expected Income :
+                                    <span class="subtitle">
+                                        <?php 
+                                            foreach($totalpayments as $amount) {
+                                                echo "N" . number_format(floatval($amount->total), 2);
+                                            } 
+                                        ?>
+                                    </span>
+                                </h4>
+                                <h5 class="panel-title headings">Fee Type :
+                                    <span class="subtitle">All Fees</span>
+                                </h5>
+                            </div>
+                        </div>
+                </div>
+                
+                    <div class="col-sm-12">
+                        <div class="row">
+                          <div class="col-lg-4 col-xs-4">
+                            <section class="small-box box-border">
+                              <a class="box-container" href="#">
+                                <header class="title">
+                                   <h4>Paid</h4>
+                                </header>
+                              <center>
+                                <?php 
+                                    foreach ($fullpayments as $amount) {$fully_paid = $amount->full;}
+                                    foreach ($partialpayments as $amount) {$partially_paid = $amount->partial;}
+                                    foreach ($totalpayments as $amount) {$totalexpected = $amount->total;}
+                                    $amountnotpaid = $totalexpected - ($fully_paid + $partially_paid);
+                                    $paid_percent = round(($fully_paid/$totalexpected)*100); 
+                                    $partial_percent = round(($partially_paid/$totalexpected)*100); 
+                                    $notpaid_percent = round(($amountnotpaid/$totalexpected)*100);
+                                     
+
+                                ?>
+                                <div class="amount-legend"><?php echo "N", number_format($fully_paid, 2); ?></div>
+                                <p class="percent"><?php echo htmlentities($paid_percent . "%"); ?><span class="pvalue">
+                                  
+                                  </span>
+                                  <span class="small-text">Paid</span></p>
+                                <canvas id="paid-graph" class="chart-on-canvas" width="100" height="100"></canvas>
+                              </center>
+                              <div id="paid-legend" class="chart-legend"></div>
+                            </a>
+                            </section>
+                          </div>
+                          <div class="col-lg-4 col-xs-4">
+                            <section class="small-box box-border">
+                              <a class="box-container" href="#">
+                                <header class="title">
+                                   <h4>Partially Paid</h4>
+                                </header> 
+                                <center>
+                                  <div class="amount-legend"><?php echo "N", number_format($partially_paid, 2); ?></div>
+                                  <p class="percent"><?php echo htmlentities($partial_percent . "%"); ?><span class="pvalue">
+                                    
+                                    </span><span class="small-text">Partial</span></p>
+                                  <canvas id="partial-graph" class="chart-on-canvas" width="100" height="100"></canvas>
+                                </center>
+                                <div id="partial-legend" class="chart-legend"></div>
+                            </a>
+                            </section>
+                          </div>
+                          <div class="col-lg-4 col-xs-4">
+                            <section class="small-box box-border">
+                              <a class="box-container" href="#">
+                                <header class="title">
+                                   <h4>Unpaid</h4>
+                                </header> 
+                                <center>
+                                  <div class="amount-legend"><?php echo "N", number_format($amountnotpaid, 2); ?></div>
+                                  <p class="percent"><?php echo htmlentities($notpaid_percent . "%"); ?><span class="pvalue">
+                                    
+                                    </span><span class="small-text">Unpaid</span></p>
+                                  <canvas id="unpaid-graph" class="chart-on-canvas" width="100" height="100"></canvas>
+                                </center>
+                                <div id="unpaid-legend" class="chart-legend"></div>
+                            </a>
+                            </section>
+                          </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript" src="<?php echo base_url('assets/chartjs/chart.js'); ?>"></script>
+                    <script type="text/javascript" src="<?php echo base_url('assets/scripts/graphs.js'); ?>"></script>
+                           
+                    <script>
+                        
+                         $.ajax({
+                              type: 'GET',
+                              dataType: "json",
+                              url: "<?=base_url('invoice/invoice_analysis')?>",
+                              dataType: "html",
+                              success: function(data) {
+                                var response = jQuery.parseJSON(data);
+                                afpaid = response.afpaid;
+                                appaid = response.appaid;
+                                anpaid = response.anpaid;
+                                tpaid = response.tpaid;
+                                st = response.st;
+                               
+                                if (st == 1) {
+                                var fdata = [ // Fully Paid Data
+                                  {
+                                    value: afpaid,
+                                    color: "#46BFBD",
+                                    highlight: "#5AD3D1",
+                                    label: "Paid"
+                                  },
+
+                                  {
+                                    value: tpaid,
+                                    color:"#F7464A",
+                                    highlight: "#FF5A5E",
+                                    label: "Total"
+                                  },
+
+                                ];
+
+                                var pdata = [ // Partially Paid
+                                  {
+                                    value: appaid,
+                                    color: "#46BFBD",
+                                    highlight: "#5AD3D1",
+                                    label: "Partially Paid"
+                                  },
+
+                                  {
+                                    value: tpaid,
+                                    color:"#F7464A",
+                                    highlight: "#FF5A5E",
+                                    label: "Total"
+                                  },
+
+                                ];
+
+                                var udata = [ // Unpaid
+                                  {
+                                    value: anpaid,
+                                    color: "#46BFBD",
+                                    highlight: "#5AD3D1",
+                                    label: "Unpaid"
+                                  },
+
+                                  {
+                                    value: tpaid,
+                                    color:"#F7464A",
+                                    highlight: "#FF5A5E",
+                                    label: "Total"
+                                  },
+
+                                ];
+                            }else{
+                                var fdata = [ // Fully Paid Data
+                                      {
+                                        value: 1,
+                                        color: "#46BFBD",
+                                        highlight: "#5AD3D1",
+                                        label: "Paid"
+                                      },
+
+                                      {
+                                        value: 1,
+                                        color:"#F7464A",
+                                        highlight: "#FF5A5E",
+                                        label: "Total"
+                                      },
+
+                                    ];
+
+                                    var pdata = [ // Partially Paid
+                                      {
+                                        value: 1,
+                                        color: "#46BFBD",
+                                        highlight: "#5AD3D1",
+                                        label: "Partially Paid"
+                                      },
+
+                                      {
+                                        value: tpaid,
+                                        color:"#F7464A",
+                                        highlight: "#FF5A5E",
+                                        label: "Total"
+                                      },
+
+                                    ];
+
+                                    var udata = [ // Unpaid
+                                      {
+                                        value: 1,
+                                        color: "#46BFBD",
+                                        highlight: "#5AD3D1",
+                                        label: "Unpaid"
+                                      },
+
+                                      {
+                                        value: 1,
+                                        color:"#F7464A",
+                                        highlight: "#FF5A5E",
+                                        label: "Total"
+                                      },
+
+                                    ];
+                            }
+
+                            var options = {
+                                  segmentShowStroke: false,
+                                  animateRotate: true,
+                                  animateScale: false,
+                                  percentageInnerCutout: 55,
+                                  tooltipTemplate: "<%= value %>"
+                                }
+
+                                displayInvoiceDoughnutGraph(fdata, "#paid-graph", "#paid-legend", options); // Display Paid Invoice Chart
+                                displayInvoiceDoughnutGraph(pdata, "#partial-graph", "#partial-legend", options); // Display Paid Invoice Chart
+                                displayInvoiceDoughnutGraph(udata, "#unpaid-graph", "#unpaid-legend", options); // Display Paid Chart
+                        }
+
+                    });
+
+                    </script>
+
+                    
+                       
+
+                   
+                    <div class="col-sm-12">
+
 
                 <?php
                     $usertype = $this->session->userdata("usertype");
@@ -48,7 +279,7 @@
                                         <?php echo $i; ?>
                                     </td>
                                     <td data-title="<?=$this->lang->line('invoice_feetype')?>">
-                                        <?php echo $invoice->feetype; ?>
+                                        <a href="<?php echo base_url('invoice/analysis/' . $invoice->feetypeID); ?>"><?php echo $invoice->feetype; ?></a>
                                     </td>
 
                                     <td data-title="<?=$this->lang->line('invoice_date')?>">

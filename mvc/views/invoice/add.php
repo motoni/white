@@ -1,4 +1,22 @@
+<?php 
 
+/*
+| -----------------------------------------------------
+| PRODUCT NAME:     INILABS SCHOOL MANAGEMENT SYSTEM
+| -----------------------------------------------------
+| AUTHOR:           INILABS TEAM
+| -----------------------------------------------------
+| EMAIL:            info@inilabs.net
+| -----------------------------------------------------
+| COPYRIGHT:        RESERVED BY INILABS IT
+| -----------------------------------------------------
+| WEBSITE:          http://inilabs.net
+| -----------------------------------------------------
+| MODIFIED BY:      Babajide Ibiayo (babajideibiayo@yahoo.com)
+| -----------------------------------------------------
+*/
+
+?>
 <div class="box">
     <div class="box-header">
         <h3 class="box-title"><i class="fa icon-invoice"></i> <?=$this->lang->line('panel_title')?></h3>
@@ -76,23 +94,64 @@
                     </div>
 
                     <?php 
+                        if(form_error('term_id')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="term_id" class="col-sm-2 control-label">
+                            <?=$this->lang->line("invoice_term")?>
+                        </label>
+                        <div class="col-sm-6">
+                            <select class="form-control" id="termID" name="termID">
+                                <option class="form-control" value="1" <?php echo set_select("termID", "1"); ?> >First Term</option>
+                                <option class="form-control" value="2"  <?php echo set_select("termID", "2"); ?> >Second Term</option>
+                                <option class="form-control" value="3"  <?php echo set_select("termID", "3"); ?> >Third Term</option>
+                            </select>
+                            <span class="col-sm-4 control-label">
+                                <?php echo form_error('term'); ?>
+                            </span>
+                       </div>
+                    </div>
+
+                    <?php 
+               
+                        if(form_error('feetypeID')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="feetypeID" class="col-sm-2 control-label">
+                            <?=$this->lang->line("invoice_feetypeID")?>
+                        </label>
+                        <div class="col-sm-6">
+
+                            <?php
+                                $array = array('0' => $this->lang->line("invoice_select_feetype"));
+                                foreach ($feetypes as $feetype_object) {
+                                    $array[$feetype_object->feetypeID] = $feetype_object->feetype;
+                                }
+                                echo form_dropdown("feetypeID", $array, set_value("feetypeID"), "id='feetypeID' class='form-control'");
+                            ?>
+                            
+                        </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('classesID'); ?>
+                        </span>
+                    </div>
+
+                    <?php 
                         if(form_error('feetype'))
                             echo "<div class='form-group has-error' >";
                         else     
                             echo "<div class='form-group' >";
                     ?>
-                        <label for="feetype" class="col-sm-2 control-label">
-                            <?=$this->lang->line("invoice_feetype")?>
-                        </label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="feetype" name="feetype" value="<?=set_value('feetype')?>" >
+                            <input type="hidden" class="form-control" id="feetype" name="feetype" value="default">
                             <div class="book"><ul  class="result"></ul></div>
                         </div>
-                        <span class="col-sm-4 control-label">
-                            <?php echo form_error('feetype'); ?>
-                        </span>
-                    </div>
-
+                       </div>
+                       
                     <?php 
                         if(form_error('amount')) 
                             echo "<div class='form-group has-error' >";
