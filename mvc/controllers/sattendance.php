@@ -13,6 +13,8 @@ class Sattendance extends Admin_Controller {
 | -----------------------------------------------------
 | WEBSITE:			http://inilabs.net
 | -----------------------------------------------------
+| MODIFIED: 		Babajide Ibiayo babajideibiayo@yahoo.com
+|------------------------------------------------------
 */
 	function __construct() {
 		parent::__construct();

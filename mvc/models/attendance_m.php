@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Sattendance_m extends MY_Model {
+class Attendance_m extends MY_Model {
 
-	protected $_table_name = 'sattendance';
-	protected $_primary_key = 'attendanceID';
+	protected $_table_name = 'attendance';
+	protected $_primary_key = 'attendance_id';
 	protected $_primary_filter = 'intval';
-	protected $_order_by = "monthyear asc";
+	protected $_order_by = "attendance_id asc";
 
 	function __construct() {
 		parent::__construct();
@@ -40,8 +40,13 @@ class Sattendance_m extends MY_Model {
 		parent::delete($id);
 	}
 
-
-	
+	function get_attendance_by_id($id) {
+		$this->db->select();
+		$this->db->from('attendance');
+		$this->db->where('attendance_id', $id);
+		$query = $this->db->get();
+		return $query->result();
+	}
 
 }
 

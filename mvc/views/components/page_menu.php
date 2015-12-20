@@ -166,7 +166,7 @@
                                 </a>
                                 <ul class="treeview-menu" >
                                     <li>
-                                        <?php echo anchor('sattendance/index', '<i class="fa icon-sattendance"></i><span>'.$this->lang->line('menu_sattendance').'</span>'); ?>
+                                        <?php echo anchor('attendance/index', '<i class="fa icon-sattendance"></i><span>'.$this->lang->line('menu_sattendance').'</span>'); ?>
                                     </li>
                                     <?php if($usertype == "Teacher") { ?>
                                     <li>

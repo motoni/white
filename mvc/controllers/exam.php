@@ -19,7 +19,7 @@ class Exam extends Admin_Controller {
 		$this->load->model("exam_m");
 		$this->load->model("term_m");
 		$language = $this->session->userdata('lang');
-		$this->lang->load('exam', $language);	
+		$this->lang->load('exam', $language);
 	}
 
 	public function index() {
@@ -29,6 +29,7 @@ class Exam extends Admin_Controller {
 			$this->data['terms'] = $this->term_m->get_order_by_term();
 			$this->data["subview"] = "exam/index";
 			$this->load->view('_layout_main', $this->data);
+
 		} else {
 			$this->data["subview"] = "error";
 			$this->load->view('_layout_main', $this->data);

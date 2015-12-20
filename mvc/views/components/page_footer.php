@@ -33,15 +33,12 @@
                     "bInfo": true,
                     "bAutoWidth": false
                 });
-            });
-        </script>
+                $( ".select2" ).select2( { placeholder: "Select username", maximumSelectionSize: 6 } );
+                $( ".guargianID" ).select2( { placeholder: "Select Guardian" , maximumSelectionSize: 6 } );
 
-        <script>
-            $( ".select2" ).select2( { placeholder: "Select username", maximumSelectionSize: 6 } );
-            $( ".guargianID" ).select2( { placeholder: "Select Guardian" , maximumSelectionSize: 6 } );
-
-            $( "button[data-select2-open]" ).click( function() {
-                $( "#" + $( this ).data( "select2-open" ) ).select2( "open" );
+                $( "button[data-select2-open]" ).click( function() {
+                    $( "#" + $( this ).data( "select2-open" ) ).select2( "open" );
+                });
             });
         </script>
 

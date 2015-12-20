@@ -54,6 +54,14 @@ class Classes_m extends MY_Model {
 		$query = $this->db->get();
 		return $query->result();
 	}
+	function get_classes_by_id($id) {
+		$this->db->select();
+		$this->db->from('classes');
+		$this->db->where('classesID', $id);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 }
 
 /* End of file classes_m.php */
