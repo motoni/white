@@ -265,6 +265,7 @@ class Dashboard extends Admin_Controller {
 			$this->data['student'] = $this->student_m->get_student();
 			$this->data['teacher'] = $this->teacher_m->get_teacher();
 			$this->data['subject'] = $this->subject_m->get_subject();
+			$this->data['events'] = $this->event_m->get_event();
 			$this->data['attendance'] = $this->sattendance_m->get_order_by_attendance(array('monthyear' => $monthyear, 'a'.$day => 'P'));
 		} elseif($usertype == "Accountant") {
 			$username = $this->session->userdata('username');
@@ -274,6 +275,7 @@ class Dashboard extends Admin_Controller {
 			$this->data['invoice'] = $this->invoice_m->get_invoice();
 			$this->data['feetype'] = $this->feetype_m->get_feetype();
 			$this->data['expense'] = $this->expense_m->get_expense();
+			$this->data['events'] = $this->event_m->get_event();
 		} elseif($usertype == "Librarian") {
 			$username = $this->session->userdata('username');
 			$this->data['user'] = $this->user_m->get_single_user(array('username'  => $username));
@@ -281,12 +283,14 @@ class Dashboard extends Admin_Controller {
 			$this->data['teacher'] = $this->teacher_m->get_teacher();
 			$this->data['lmember'] = $this->lmember_m->get_lmember();
 			$this->data['book'] = $this->book_m->get_book();
+			$this->data['events'] = $this->event_m->get_event();
 			$this->data['issue'] = $this->issue_m->get_order_by_issue(array('return_date' => NULL));
 		} elseif($usertype == "Student") {
 			$username = $this->session->userdata('username');
 			$this->data['user'] = $this->student_m->get_single_student(array('username'  => $username));
 			$this->data['notices'] = $this->notice_m->get_notice();
 			$this->data['teacher'] = $this->teacher_m->get_teacher();
+			$this->data['events'] = $this->event_m->get_event();
 			$this->data['subject'] = $this->student_info_m->get_join_where_subject($this->data['user']->classesID);
 			$lmember = $this->lmember_m->get_single_lmember(array('studentID' => $this->data['user']->studentID));
 			if($lmember) {

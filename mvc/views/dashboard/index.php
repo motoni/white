@@ -658,7 +658,7 @@
 
   <script type="text/javascript" src="<?php echo base_url('assets/fullcalendar/fullcalendar.min.js'); ?>"></script>
 
-  <script type="text/javascript">
+    <script type="text/javascript">
     $(function() {
         var date = new Date();
         var d = date.getDate(),
@@ -677,10 +677,28 @@
                 month: 'month',
                 week: 'week',
                 day: 'day'
-            }
+            },
+            events: [
+
+                <?php 
+                  foreach ($events as $event) : 
+                    $event_title = $event->title;
+                    $date = $event->date;
+                ?>
+
+
+            {
+                title: "<?= $event_title; ?>",
+                start: "<?= $date; ?>",
+                end: "<?= $date; ?>"
+              },
+
+              <?php endforeach ?>
+            ]
         });
     });
   </script>
+
 
 <?php } elseif($usertype == "Accountant") { ?>
   <div class="row">
@@ -901,7 +919,24 @@
                 month: 'month',
                 week: 'week',
                 day: 'day'
-            }
+            },
+            events: [
+
+                <?php 
+                  foreach ($events as $event) : 
+                    $event_title = $event->title;
+                    $date = $event->date;
+                ?>
+
+
+            {
+                title: "<?= $event_title; ?>",
+                start: "<?= $date; ?>",
+                end: "<?= $date; ?>"
+              },
+
+              <?php endforeach ?>
+            ]
         });
     });
   </script>
@@ -1124,7 +1159,24 @@
                 month: 'month',
                 week: 'week',
                 day: 'day'
-            }
+            },
+            events: [
+
+                <?php 
+                  foreach ($events as $event) : 
+                    $event_title = $event->title;
+                    $date = $event->date;
+                ?>
+
+
+            {
+                title: "<?= $event_title; ?>",
+                start: "<?= $date; ?>",
+                end: "<?= $date; ?>"
+              },
+
+              <?php endforeach ?>
+            ]
         });
     });
   </script>
@@ -1330,7 +1382,7 @@
 
   <script type="text/javascript" src="<?php echo base_url('assets/fullcalendar/fullcalendar.min.js'); ?>"></script>
 
-  <script type="text/javascript">
+    <script type="text/javascript">
     $(function() {
         var date = new Date();
         var d = date.getDate(),
@@ -1349,7 +1401,24 @@
                 month: 'month',
                 week: 'week',
                 day: 'day'
-            }
+            },
+            events: [
+
+                <?php 
+                  foreach ($events as $event) : 
+                    $event_title = $event->title;
+                    $date = $event->date;
+                ?>
+
+
+            {
+                title: "<?= $event_title; ?>",
+                start: "<?= $date; ?>",
+                end: "<?= $date; ?>"
+              },
+
+              <?php endforeach ?>
+            ]
         });
     });
   </script>
@@ -1555,7 +1624,7 @@
 
   <script type="text/javascript" src="<?php echo base_url('assets/fullcalendar/fullcalendar.min.js'); ?>"></script>
 
-  <script type="text/javascript">
+    <script type="text/javascript">
     $(function() {
         var date = new Date();
         var d = date.getDate(),
@@ -1574,10 +1643,28 @@
                 month: 'month',
                 week: 'week',
                 day: 'day'
-            }
+            },
+            events: [
+
+                <?php 
+                  foreach ($events as $event) : 
+                    $event_title = $event->title;
+                    $date = $event->date;
+                ?>
+
+
+            {
+                title: "<?= $event_title; ?>",
+                start: "<?= $date; ?>",
+                end: "<?= $date; ?>"
+              },
+
+              <?php endforeach ?>
+            ]
         });
     });
   </script>
+
 
 <?php } ?>
 
