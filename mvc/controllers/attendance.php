@@ -244,7 +244,7 @@ class Attendance extends Admin_Controller {
 										$this->data['students'][$key] = (object) array_merge( (array)$student, array('ssection' => $student->section));
 									}
 
-									$status = '';
+									$status = 0;
 									$student_id = $student->studentID;
 									$classes_id = $student->classesID;
 									$timestamp = strtotime($date);
