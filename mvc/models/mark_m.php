@@ -54,6 +54,10 @@ class Mark_m extends MY_Model {
 		parent::delete($id);
 	}
 
+	public function delete_mark_by_exam($examID) {
+		$this->db->delete('mark', array('examID' => $examID));
+	}
+
 	function sum_student_subject_mark($studentID, $classesID, $subjectID) {
 		$array = array(
 			"studentID" => $studentID,

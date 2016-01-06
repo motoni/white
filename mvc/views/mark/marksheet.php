@@ -92,6 +92,11 @@ if (count($student)) {
                                 };
                                 $list_of_subjects = array_map($map6, $subjects);
 
+                                $map7 = function($r) {
+                                            return array("examID" => intval($r->examID), "termID" => $r->termID);
+                                        };
+                                $exam_terms = array_map($map7, $exams);
+                               
                                                                
                                 function get_marks_obtained($all_classmarks, $subject, $exam, $studentID) {
 
@@ -167,7 +172,7 @@ if (count($student)) {
                                                     break;
                                                 }
                                             }
-
+                                            if($f == 1) {
                                             echo "<caption>";
                                             echo "<h3>" . $exam->exam . "</h3>";
                                             echo "</caption>";
@@ -193,6 +198,7 @@ if (count($student)) {
                                             }
                                             echo "</tr>";
                                             echo "</thead>";
+                                            }
                                         }
                                     }
 
@@ -250,6 +256,7 @@ if (count($student)) {
                                         $average_marks = array(); // array to store average marks per subject
                                         $subjects = array();
                                         $current_exam = "";
+                                        $current_term = "";
                                         $k = 0;
                                    
                                         foreach ($exams as $exam) {                     
@@ -259,40 +266,55 @@ if (count($student)) {
                                             endif;
 
                                         $current_exam = $exam->examID;
+                                        $current_term = $exam->termID;
+                                         
+
                                         
-                                        foreach ($marks as $mark) {
+                                        foreach ($exam_terms as $value) {
 
-                                            if (($mark->examID == $current_exam) && ($mark->examID <= $last_exam)){
+                                            
+                                            if ($value['examID'] == $last_exam){
 
-                                                // get the highest marks for the current exam and store them in an array
-                                                $highest_marks_{$current_exam}[$k] = get_highest_mark($all_classmarks, $mark->subject, $exam->exam);
-                                                
-                                                // get the average marks for the current exam and store them in an array
-                                                $average_marks_{$current_exam}[$k] = get_average_mark($all_classmarks, $mark->subject, $exam->exam);
-                                                
-                                                // get the marks obtained for the current exam and store them in an array
-                                                $marks_obtained_{$current_exam}[$k] = get_marks_obtained($all_classmarks, $mark->subject, $exam->exam, $mark->studentID);
 
-                                                $subjects_{$current_exam}[$k] = $mark->subject;
-                                                                                        
-                                                $k++;
+                                                foreach ($marks as $mark) {
+
+                                                if (($mark->examID == $current_exam) && ($mark->examID <= $last_exam)){
+
+                                                    // get the highest marks for the current exam and store them in an array
+                                                    $highest_marks_{$current_exam}[$k] = get_highest_mark($all_classmarks, $mark->subject, $exam->exam);
+                                                    
+                                                    // get the average marks for the current exam and store them in an array
+                                                    $average_marks_{$current_exam}[$k] = get_average_mark($all_classmarks, $mark->subject, $exam->exam);
+                                                    
+                                                    // get the marks obtained for the current exam and store them in an array
+                                                    $marks_obtained_{$current_exam}[$k] = get_marks_obtained($all_classmarks, $mark->subject, $exam->exam, $mark->studentID);
+
+                                                    $subjects_{$current_exam}[$k] = $mark->subject;
+                                                                                            
+                                                    $k++;
+                                                }
                                             }
-                                        }
 
-                                        //Convert array to list
-                                        $highest_marks_list = implode(",", $highest_marks_{$current_exam});
-                                        $average_marks_list = implode(",", $average_marks_{$current_exam});
-                                        
-                                        // Call recursive implode function...see heplers/action_helper.php
-                                        $marks_obtained_list = recursive_implode($marks_obtained_{$current_exam});
-                                        
-                                        //Flatten and process array return quoted string
-                                        $list_of_subjects = $subjects_{$current_exam};
-                                        $subjects_list = process_subjects_array($list_of_subjects);         
-                                        
-                                        $canvasID = "marks-chart-" . $exam->examID;
-                                        echo $canvasID;                             
-                                    ?>
+                                            if(!empty($highest_marks_{$current_exam})) {
+
+                                                //Convert array to list
+                                                $highest_marks_list = implode(",", $highest_marks_{$current_exam});
+                                                $average_marks_list = implode(",", $average_marks_{$current_exam});
+                                                
+                                                // Call recursive implode function...see heplers/action_helper.php
+                                                $marks_obtained_list = recursive_implode($marks_obtained_{$current_exam});
+                                                
+                                                //Flatten and process array return quoted string
+                                                $list_of_subjects = $subjects_{$current_exam};
+                                                $subjects_list = process_subjects_array($list_of_subjects);         
+                                                
+                                                $canvasID = "marks-chart-" . $exam->examID;
+                                                echo $canvasID; 
+                                                
+                                        ?>
+
+                                            
+                                    
                                             <table class="table table-borderd">
                                                 <caption><h5>Mark Obtained Vs Average Marks Vs Highest Marks</h5></caption>
                                                 <tr>
@@ -304,7 +326,16 @@ if (count($student)) {
                                                     <td>
                                                         <div id="bar-legend" class="chart-legend"></div>
                                                     </td>
+                                                </tr>
                                             </table>
+
+                                        <?php 
+                                                    }
+                                                }
+                                            }
+                                        ?>
+                                        
+
                                         <script type="text/javascript" src="<?php echo base_url('assets/chartjs/chart.js'); ?>"></script>
                                         <script type="text/javascript" src="<?php echo base_url('assets/scripts/graphs.js'); ?>"></script>
                                         <script type="text/javascript">
@@ -349,8 +380,6 @@ if (count($student)) {
                                                     //alert("OK");
                                             });
                                         </script>
-                                        
-                                            </tr>
                                                                                         
                                         <?php } ?> 
                                     </div>

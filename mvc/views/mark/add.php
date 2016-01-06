@@ -97,7 +97,7 @@
                                 <th class="col-sm-2"><?=$this->lang->line('mark_name')?></th>
                                 <th class="col-sm-2"><?=$this->lang->line('mark_roll')?></th>
                                 <th class="col-sm-2"><?=$this->lang->line('mark_phone')?></th>
-                                <th class="col-sm-2"><?=$this->lang->line('action')?>
+                                <th class="col-sm-2"><?=$this->lang->line('mark_mark')?>
                                 </th>
                             </tr>
                         </thead>
@@ -127,7 +127,7 @@
                                     <td data-title="<?=$this->lang->line('mark_phone')?>">
                                         <?php echo $student->phone; ?>
                                     </td>
-                                    <td data-title='Action'>
+                                    <td data-title="<?=$this->lang->line('mark_mark')?>">
                                         <input class="form-control mark" type="number" name="<?=$student->studentID?>" id="<?=$student->studentID?>" value="<?=set_value($student->studentID, $mark->mark)?>" />
                                     </td>
                                 </tr>

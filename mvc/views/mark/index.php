@@ -1,4 +1,4 @@
-<?php
+<?php 
 /*
 | -----------------------------------------------------
 | PRODUCT NAME:     INILABS SCHOOL MANAGEMENT SYSTEM
@@ -13,8 +13,7 @@
 | -----------------------------------------------------
 | MODIFIED BY:      INTELNETGS intelnetgs@yahoo.com
 |------------------------------------------------------
-*/
-?>
+*/?>
 <div class="box">
     <div class="box-header">
         <h3 class="box-title"><i class="fa fa-flask"></i> <?=$this->lang->line('panel_title')?></h3>
@@ -78,7 +77,7 @@
                                 <th class="col-sm-2"><?=$this->lang->line('mark_name')?></th>
                                 <th class="col-sm-2"><?=$this->lang->line('mark_roll')?></th>
                                 <th class="col-sm-2"><?=$this->lang->line('mark_phone')?></th>
-                                <th class="col-sm-2"><?=$this->lang->line('action')?></th>
+                                <th class="col-sm-2"><?=$this->lang->line('mark_mark')?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,7 +106,7 @@
                                     <td data-title="<?=$this->lang->line('mark_phone')?>">
                                         <?php echo $student->phone; ?>
                                     </td>
-                                    <td data-title="<?=$this->lang->line('action')?>">
+                                    <td data-title="<?=$this->lang->line('mark_mark')?>">
                                         <?php 
                                             if($usertype == "Admin" || $usertype == "Teacher") {
                                                 echo btn_view('mark/view/'.$student->studentID."/".$set, $this->lang->line('view'));

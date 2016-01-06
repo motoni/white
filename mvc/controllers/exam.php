@@ -18,6 +18,7 @@ class Exam extends Admin_Controller {
 		parent::__construct();
 		$this->load->model("exam_m");
 		$this->load->model("term_m");
+		$this->load->model("mark_m");
 		$language = $this->session->userdata('lang');
 		$this->lang->load('exam', $language);
 	}
@@ -144,6 +145,7 @@ class Exam extends Admin_Controller {
 			$id = htmlentities(mysql_real_escape_string($this->uri->segment(3)));
 			if((int)$id) {
 				$this->exam_m->delete_exam($id);
+				$this->mark_m->delete_mark_by_exam($id);
 				$this->session->set_flashdata('success', $this->lang->line('menu_success'));
 				redirect(base_url("exam/index"));
 			} else {

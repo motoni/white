@@ -1,46 +1,71 @@
 <?php
-
-$lang['panel_title'] = "علامة";
-$lang['add_title'] = "إضافة علامة";
+/*
+| -----------------------------------------------------
+| PRODUCT NAME:     INILABS SCHOOL MANAGEMENT SYSTEM
+| -----------------------------------------------------
+| AUTHOR:           INILABS TEAM
+| -----------------------------------------------------
+| EMAIL:            info@inilabs.net
+| -----------------------------------------------------
+| COPYRIGHT:        RESERVED BY INILABS IT
+| -----------------------------------------------------
+| WEBSITE:          http://inilabs.net
+| -----------------------------------------------------
+| MODIFIED BY:      INTELNETGS intelnetgs@yahoo.com
+|------------------------------------------------------
+*/
+/* List Language  */
+$lang['panel_title'] = "Mark";
+$lang['add_title'] = 'Add a mark';
 $lang['slno'] = "#";
-$lang['mark_exam'] = "امتحان";
-$lang['mark_classes'] = "فئة";
-$lang['mark_student'] = "طالب";
-$lang['mark_subject'] = "موضوع";
-$lang['mark_photo'] = "صور";
-$lang['mark_name'] = "اسم";
-$lang['mark_roll'] = "لفة";
-$lang['mark_phone'] = "هاتف";
-$lang['mark_dob'] = "تاريخ الميلاد";
-$lang['mark_sex'] = "جنس";
-$lang['mark_religion'] = "دين";
-$lang['mark_email'] = "البريد الإلكتروني";
-$lang['mark_address'] = "عنوان";
-$lang['mark_username'] = "اسم المستخدم";
-$lang['mark_subject'] = "موضوع";
-$lang['mark_mark'] = "علامة";
-$lang['mark_point'] = "نقطة";
-$lang['mark_grade'] = "درجة";
-$lang['mark_select_classes'] = "حدد فئة";
-$lang['mark_select_exam'] = "حدد الامتحان";
-$lang['mark_select_subject'] = "حدد الموضوع";
-$lang['mark_select_student'] = "حدد الطلاب";
-$lang['mark_success'] = "نجاح";
-$lang['personal_information'] = "معلومات شخصية";
-$lang['mark_information'] = "كافة المعلومات";
-$lang['action'] = "عمل";
-$lang['view'] = "عرض";
-$lang['pdf_preview'] = "Pdf معاينة";
-$lang['print'] = "طباعة";
-$lang["mail"] = "إرسال قوات الدفاع الشعبي إلى البريد";
-$lang['add_mark'] = "علامة";
-$lang['add_sub_mark'] = "إضافة الأقسام";
-$lang['to'] = "إلى";
-$lang['subject'] = "موضوع";
-$lang['message'] = "رسالة";
-$lang['send'] = "إرسال";
-$lang['mail_to'] = "مطلوب مجال ل.";
-$lang['mail_valid'] = "يجب أن يحتوي الحقل إلى عنوان بريد إلكتروني صالح.";
-$lang['mail_subject'] = "مطلوب حقل الموضوع.";
-$lang['mail_success'] = "البريد الالكتروني ارسال بنجاح،";
-$lang['mail_error'] = "عفوا، لا يرسل البريد الإلكتروني،";
+$lang['mark_exam'] = "Exam";
+$lang['mark_classes'] = "Class";
+$lang['mark_student'] = "Student";
+$lang['mark_subject'] = "Subject";
+$lang['mark_photo'] = "Photo";
+$lang['mark_name'] = "Name";
+$lang['mark_roll'] = "Roll";
+$lang['mark_phone'] = "Phone";
+$lang['mark_dob'] = "Date of Birth";
+$lang['mark_sex'] = "Gender";
+$lang['mark_religion'] = "Religion";
+$lang['mark_email'] = "Email";
+$lang['mark_address'] = "Address";
+$lang['mark_username'] = "Username";
+
+$lang['mark_subject'] = "Subject";
+$lang['mark_mark'] = "Mark Obtained";
+$lang['mark_point'] = "Point";
+$lang['mark_grade'] = "Grade";
+
+
+$lang['mark_select_classes'] = "Select Class";
+$lang['mark_select_exam'] = "Select Exam";
+$lang['mark_select_subject'] = "Select Subject";
+$lang['mark_select_student'] = "Select Student";
+$lang['mark_success'] = "Success";
+$lang['personal_information'] = "Personal Information";
+$lang['mark_information'] = "Marks Information";
+$lang['mark-charts'] = "Marks Chart";
+$lang['mark_sheet'] = "Mark Sheet";
+$lang['mark_high'] = "Highest Mark";
+$lang['mark_average'] = "Average Mark";
+$lang['action'] = "Action";
+$lang['view'] = 'View';
+$lang['pdf_preview'] = 'PDF Preview';
+$lang['print'] = 'Print';
+$lang["mail"] = "Send Pdf to Mail";
+
+// /* Add Language */
+$lang['add_mark'] = 'Mark';
+$lang['add_sub_mark'] = 'Add Mark';
+
+$lang['to'] = 'To';
+$lang['subject'] = 'Subject';
+$lang['message'] = 'Message';
+$lang['send'] = 'Send';
+$lang['mail_to'] = "The To field is required.";
+$lang['mail_valid'] = "The To field must contain a valid email address.";
+$lang['mail_subject'] = "The Subject field is required.";
+$lang['mail_success'] = 'Email send successfully!';
+$lang['mail_error'] = 'oops! Email not send!';

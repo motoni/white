@@ -203,6 +203,7 @@ class Mark extends Admin_Controller {
 					$examID = $this->input->post('examID');
 					$classesID = $this->input->post('classesID');
 					$subjectID = $this->input->post('subjectID');
+					$mark = 0;
 					$this->data['set_exam'] = $examID;
 					$this->data['set_classes'] = $classesID;
 					$this->data['set_subject'] = $subjectID;
@@ -224,6 +225,7 @@ class Mark extends Admin_Controller {
 										"classesID" => $classesID,
 										"subjectID" => $subjectID,
 										"subject" => $subject->subject,
+										"mark" => $mark,
 										"year" => $year
 									);
 									$this->mark_m->insert_mark($array);
