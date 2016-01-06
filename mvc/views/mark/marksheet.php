@@ -309,7 +309,7 @@ if (count($student)) {
                                                 $subjects_list = process_subjects_array($list_of_subjects);         
                                                 
                                                 $canvasID = "marks-chart-" . $exam->examID;
-                                                echo $canvasID; 
+                                                echo $exam->exam; 
                                                 
                                         ?>
 
