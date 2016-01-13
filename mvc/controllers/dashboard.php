@@ -327,11 +327,14 @@ class Dashboard extends Admin_Controller {
 		$this->load->view('_layout_main', $this->data);
 	}
 
-	function paymentscall() {
+function paymentscall() {
 		$usertype = $this->session->userdata('usertype');
 		if($usertype == "Admin") {
 			$payments = $this->payment_m->get_payment();
 			$invoices = $this->invoice_m->get_invoice();
+			$npaidamt = 0;
+			$ppaidamt = 0;
+			$fpaidamt = 0;
 			$npaid = 0;
 			$ppaid = 0;
 			$fpaid = 0;
@@ -343,10 +346,13 @@ class Dashboard extends Admin_Controller {
 				foreach ($invoices as $invoice) {
 					if($invoice->status == 0) {
 						$npaid++;
+						$npaidamt+= $invoice->amount;
 					} elseif($invoice->status == 1) {
 						$ppaid++;
+						$ppaidamt+= $invoice->paidamount;
 					} elseif($invoice->status == 2) {
 						$fpaid++;
+						$fpaidamt+= $invoice->amount;
 					}
 				}
 			}
@@ -364,12 +370,12 @@ class Dashboard extends Admin_Controller {
 			}
 
 			if(count($invoices)) {
-				$json = array("npaid" => $npaid, "ppaid" => $ppaid, "fpaid" => $fpaid, "cash" => $cash, "cheque" => $cheque, "paypal" => $paypal, "st" => 1);
+				$json = array("npaid" => $npaid, "ppaid" => $ppaid, "fpaid" => $fpaid,"npaidamt" => number_format($npaidamt), "ppaidamt" => number_format($ppaidamt), "fpaidamt" => number_format($fpaidamt), "cash" => $cash, "cheque" => $cheque, "paypal" => $paypal, "st" => 1);
 				header("Content-Type: application/json", true);
 				echo json_encode($json);
 				exit;
 			} else {
-				$json = array("npaid" => $npaid, "ppaid" => $ppaid, "fpaid" => $fpaid, "cash" => $cash, "cheque" => $cheque, "paypal" => $paypal, "st" => 0);
+				$json = array("npaid" => $npaid, "ppaid" => $ppaid, "fpaid" => $fpaid,"npaidamt" => $npaidamt, "ppaidamt" => $ppaidamt, "fpaidamt" => $fpaidamt, "cash" => $cash, "cheque" => $cheque, "paypal" => $paypal, "st" => 0);
 				header("Content-Type: application/json", true);
 				echo json_encode($json);
 				exit;
@@ -381,6 +387,7 @@ class Dashboard extends Admin_Controller {
 		$usertype = $this->session->userdata('usertype');
 		if($usertype == "Admin") {
 			$payments = $this->payment_m->get_order_by_payment(array("paymentyear" => date("Y")));
+
 	      	$lastEarn = 0;
 	      	$percent = 0;
 	      	$monthBalances = array();
@@ -412,21 +419,53 @@ class Dashboard extends Admin_Controller {
 					$dataarr[] = $monthBalance;
 				}
 
-
-				$json = array("balance" => $dataarr);
-				header("Content-Type: application/json", true);
-				echo json_encode($json);
-				exit;
 			} else {
 				foreach ($allMonths as $allMonth) {
 					$dataarr[] = 0;
 				}
-				$json = array("balance" => $dataarr);
+
+			}
+
+			$lastEarn = 0;
+	      	$percent = 0;
+	      	$monthBalances = array();
+	      	$hightEarn['hight'] = 0;
+	      	$dataarr2 = array();
+	        $payments = $this->expense_m->get_order_by_expense(array("expenseyear" => date("Y")));
+			if(count($payments)) {
+				foreach ($allMonths as $key => $allMonth) {
+					foreach ($payments as $key => $payment) {
+					    $paymentMonth = date("M", strtotime($payment->date));
+					    if($allMonth == $paymentMonth) {
+					      	$lastEarn+=$payment->amount;
+					      	$monthBalances[$allMonth] = $lastEarn;
+					    } else {
+					      	if(!array_key_exists($allMonth, $monthBalances)) {
+					        	$monthBalances[$allMonth] = 0;
+					      	}
+					    }
+					 }
+
+				  	if($lastEarn > $hightEarn['hight']) {
+				    	$hightEarn['hight'] = $lastEarn;
+				  	}
+				  	$lastEarn = 0;
+				}
+				foreach ($monthBalances as $monthBalancekey => $monthBalance) {
+					$dataarr2[] = $monthBalance;
+				}
+
+			} else {
+				foreach ($allMonths as $allMonth) {
+					$dataarr2[] = 0;
+				}
+			}
+
+				$json = array("balance" => $dataarr, "expense" => $dataarr2);
 				header("Content-Type: application/json", true);
 				echo json_encode($json);
 				exit;
 
-			}
 		}
 	}
 

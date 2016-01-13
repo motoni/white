@@ -255,21 +255,21 @@
             st = response.st;
 
             if(st == 1) {
-              var pieData = [{
+             var pieData = [{
                 value: npaid,
                 color:"#F7464A",
                 highlight: "#FF5A5E",
-                label: "<?=$this->lang->line('dashboard_notpaid')?>"
+                label: "<?=$this->lang->line('dashboard_notpaid')?>("+response.npaidamt+")"
               }, {
                 value: ppaid,
                 color: "#FDB45C",
                 highlight: "#FFC870",
-                label: "<?=$this->lang->line('dashboard_partially_paid')?>"
+                label: "<?=$this->lang->line('dashboard_partially_paid')?>("+response.ppaidamt+")"
               }, {
                 value: fpaid,
                 color: "#46BFBD",
                 highlight: "#5AD3D1",
-                label: "<?=$this->lang->line('dashboard_fully_paid')?>"
+                label: "<?=$this->lang->line('dashboard_fully_paid')?>("+response.fpaidamt+")"
               }];
 
               if((cash == 0 && cheque == 0 && paypal == 0)) {
@@ -314,12 +314,20 @@
             }
 
 
-            window.onload = function(){
+             window.onload = function(){
               var ctx = document.getElementById("pai").getContext("2d");
-              window.myPie = new Chart(ctx).Pie(pieData);
+              //window.myPie = new Chart(ctx).Pie(pieData);
+                var myPie = new Chart(ctx).Pie(pieData);
+                  $("#pai").click( 
+                        function(evt){
+                            var activePoints = myPie.getSegmentsAtEvent(evt);
+                            var url = "<?=base_url('invoice/index')?>/?label=" + activePoints[0].label + "&value=" + activePoints[0].value;
+                            window.location.href = url;
+                        }
+                    );  
 
               var ctx = document.getElementById("chart-area").getContext("2d");
-              window.myPie = new Chart(ctx).Pie(doughnutData);
+              var myPie2 = new Chart(ctx).Pie(doughnutData);
             }
           }
       });
