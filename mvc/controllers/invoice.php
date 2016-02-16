@@ -309,6 +309,7 @@ class Invoice extends Admin_Controller {
 						$getstudents = $this->student_m->get_order_by_student(array("classesID" => $classesID));
 						$amount = $this->input->post("amount");
 						foreach ($getstudents as $key => $getstudent) {
+							$feetype = $this->feetype_m->get_feetype_by_id($feetypeID);
 							$array = array(
 								'classesID' => $classesID,
 								'termID' => $termID,
